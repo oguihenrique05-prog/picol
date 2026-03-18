@@ -3,19 +3,15 @@
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-   <title>Funil de Vendas - Sorvete Artesanal</title>
+   <title>Picolé Artesanal - Venda Todo Dia</title>
   
-   <!-- OTIMIZAÇÃO PAGESPEED: Pré-conexão para fontes -->
    <link rel="preconnect" href="https://fonts.googleapis.com">
    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
    
-   <!-- OTIMIZAÇÃO PAGESPEED: Força a primeira imagem a carregar instantaneamente (LCP) -->
    <link rel="preload" href="picole-hero.webp" as="image" fetchpriority="high">
 
-   <!-- Tailwind CSS (Adicionado DEFER para não bloquear a renderização e evitar Timeout no Google) -->
-   <script src="https://cdn.tailwindcss.com" defer></script>
+   <script src="https://cdn.tailwindcss.com"></script>
   
-   <!-- Fontes: Inter e Playfair Display -->
    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,600;0,700;0,900;1,700;1,900&family=Playfair+Display:ital,wght@1,600;1,700;1,800&display=swap" rel="stylesheet">
 
    <script>
@@ -236,736 +232,536 @@
    </script>
 
    <style>
+       html { scroll-behavior: smooth; }
+       
        body {
            font-family: 'Inter', sans-serif;
-           background-color: #fdf2f8; /* Rosa Pastel Suave (Tailwind pink-50) */
-           background-image: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8) 0%, rgba(253, 242, 248, 0) 70%);
-           color: #111827; /* Texto escuro por padrão no modo claro */
+           background-color: #ffffff; /* Fundo branco puro para remover o efeito de caixa */
+           color: #111827; /* Texto escuro primário */
            margin: 0;
            padding: 0;
            overflow-x: hidden;
            -webkit-font-smoothing: antialiased;
        }
 
-       .glass-card {
-           background: rgba(255, 255, 255, 0.65); /* Mais opaco para dar leitura */
-           backdrop-filter: blur(16px);
-           -webkit-backdrop-filter: blur(16px);
-           border: 1px solid rgba(255, 255, 255, 0.9);
-           border-radius: 1.5rem;
-           box-shadow: 0 15px 35px -10px rgba(190, 24, 93, 0.1); /* Sombra rosada elegante */
+       /* Tema de cores adaptado para Picolé (Vermelho Carmim / Pink) */
+       .text-brand { color: #e11d48; } 
+       .bg-brand { background-color: #e11d48; }
+       
+       .card-light {
+           background-color: #ffffff;
+           border: 1px solid #e5e7eb;
+           border-radius: 12px;
+           box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+       }
+
+       /* Brilho da Imagem Hero (Sutil e Elegante) */
+       .glow-image {
+           box-shadow: 0 15px 40px -10px rgba(225, 29, 72, 0.25);
+       }
+
+       /* Botão Pulsante Verde (Cor universal de Compra) */
+       .btn-primary {
+           background: linear-gradient(to right, #10b981, #059669);
+           color: white;
+           transition: all 0.2s ease-in-out;
+           box-shadow: 0 8px 25px -5px rgba(16, 185, 129, 0.4);
+       }
+       .btn-primary:active { transform: scale(0.96); }
+
+       @keyframes pulse-btn {
+           0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+           50% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+           100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+       }
+       .animate-pulse-btn { animation: pulse-btn 2.5s infinite; }
+
+       /* Animação de entrada no scroll */
+       .fade-up {
+           opacity: 0;
+           transform: translateY(20px);
+           transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+       }
+       .fade-up.is-visible {
+           opacity: 1;
+           transform: translateY(0);
        }
 
        .blend-image {
            -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
            mask-image: linear-gradient(to bottom, rgba(0,0,0,1) 65%, rgba(0,0,0,0) 100%);
        }
-
-       .btn-green {
-           background-color: #10b981;
-           color: white;
-           transition: all 0.2s ease-in-out;
-           box-shadow: 0 8px 15px -5px rgba(16, 185, 129, 0.4);
-       }
-       .btn-green:active, .btn-green:hover { background-color: #059669; transform: scale(0.98); }
-
-       /* OTIMIZAÇÃO DE PERFORMANCE: Animando apenas o Transform (GPU), sem mexer no box-shadow (CPU) */
-       @keyframes pulse-cta {
-           0% { transform: scale(1); }
-           50% { transform: scale(1.04); }
-           100% { transform: scale(1); }
-       }
-       .animate-pulse-cta { animation: pulse-cta 2s infinite ease-in-out; }
-
-       /* OTIMIZAÇÃO DE PERFORMANCE: Usando opacity em vez de repintar o background (CPU) */
-       @keyframes alert-pulse {
-           0% { opacity: 1; }
-           50% { opacity: 0.85; }
-           100% { opacity: 1; }
-       }
-       .animate-alert { animation: alert-pulse 1.5s infinite ease-in-out; }
-
-       .quiz-btn {
-           background-color: #ffffff;
-           color: #111827;
-           transition: all 0.2s ease;
-           box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-           border: 1px solid rgba(0,0,0,0.05);
-       }
-       .quiz-btn:active, .quiz-btn:hover { background-color: #fce7f3; transform: scale(0.98); border-color: #fbcfe8; }
-
-       #progressBarContainer { background-color: rgba(0,0,0,0.1); height: 12px; border-radius: 999px; overflow: hidden; width: 100%; }
-       #progressBarFill { height: 100%; background-color: #10b981; width: 0%; transition: width 0.1s linear; }
-
-       .text-highlight { color: #e11d48; } /* Rose Forte / Carmim para contrastar no fundo claro */
-       .font-serif-italic { font-family: 'Playfair Display', serif; font-style: italic; }
-       .hidden { display: none !important; }
-
-       @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-       .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
-
-       /* Classes para Animação de Scroll */
-       .scroll-fade {
-           opacity: 0;
-           transform: translateY(30px);
-           transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-       }
-       .scroll-fade.is-visible {
-           opacity: 1;
-           transform: translateY(0);
-       }
    </style>
 </head>
-<body class="w-full min-h-[100dvh] flex justify-center text-center">
+<body class="w-full flex flex-col items-center">
 
-   <!-- POPUP DE UPSELL (R$ 27) -->
-   <div id="upsellPopup" class="hidden fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 backdrop-blur-md">
-       <div class="bg-white rounded-[2rem] shadow-2xl max-w-[380px] w-full p-8 relative text-gray-900 border-4 border-[#10b981] animate-fade">
-           <h3 class="text-2xl font-black text-gray-900 mb-2 leading-tight text-center">Leve o Pacote Completo!</h3>
-           <p class="text-[13px] text-gray-600 font-medium mb-6 leading-relaxed px-4 text-center">
-               Você escolheu a opção básica, mas por apenas <strong class="text-green-600">R$ 10,00 a mais</strong> você leva TUDO:
+   <!-- POPUP DE UPSELL (DOWNSELL OCULTO PARA 19,90) -->
+   <div id="upsellPopup" class="hidden fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
+       <div class="bg-white rounded-2xl shadow-2xl max-w-[400px] w-full p-6 relative text-gray-900 border-t-8 border-[#10b981] animate-fade">
+           
+           <!-- BOTÃO FECHAR (X) -->
+           <button onclick="closeUpsell()" class="absolute top-3 right-4 text-gray-400 hover:text-gray-700 transition text-2xl font-black leading-none" aria-label="Fechar">&times;</button>
+           
+           <!-- Barra de progresso falsa -->
+           <div class="w-full bg-gray-200 rounded-full h-2 mb-4 mt-2">
+             <div class="bg-[#10b981] h-2 rounded-full w-[80%] animate-pulse"></div>
+           </div>
+           
+           <p class="text-red-500 font-black text-center text-[13px] uppercase tracking-widest mb-1">🚨 ESPERE! NÃO FECHE A PÁGINA</p>
+           <h3 class="text-2xl font-black text-gray-900 mb-3 leading-tight text-center">Você desbloqueou um<br><span class="text-brand">Desconto Secreto!</span></h3>
+           
+           <p class="text-[13px] text-gray-600 font-medium mb-5 leading-relaxed text-center">
+               Em vez de pagar R$ 14,90 apenas pelo básico, que tal adicionar <strong class="text-[#10b981] bg-green-50 px-1 rounded">apenas R$ 5,00</strong> e levar o <strong class="text-gray-900">TREINAMENTO VIP COMPLETO</strong>? É um acréscimo ridículo para ter acesso a tudo:
            </p>
-           <div class="bg-gray-50 p-5 rounded-2xl text-left mb-6 space-y-3 shadow-inner">
-               <p class="flex items-center gap-3 text-[13px] font-bold text-gray-700 leading-tight text-left">✔ Aulas em Vídeo Passo a Passo</p>
-               <p class="flex items-center gap-3 text-[13px] font-bold text-gray-700 leading-tight text-left">✔ Apostila Digital Completa</p>
-               <p class="flex items-center gap-3 text-[13px] font-bold text-gray-700 leading-tight text-left">✔ Todos os 4 Bônus Exclusivos</p>
-               <p class="flex items-center gap-3 text-[13px] font-bold text-gray-700 leading-tight text-left">✔ Certificado Incluso</p>
+
+           <div class="bg-gray-50 border border-gray-200 p-4 rounded-xl text-left mb-5 space-y-2.5 shadow-inner">
+               <p class="flex items-start gap-2 text-[12px] font-bold text-gray-700"><span class="text-[#10b981] text-base leading-none">✔</span> <span>Aulas em Vídeo (Ver na Prática)</span></p>
+               <p class="flex items-start gap-2 text-[12px] font-bold text-gray-700"><span class="text-[#10b981] text-base leading-none">✔</span> <span>Apostila Digital Completa</span></p>
+               <p class="flex items-start gap-2 text-[12px] font-bold text-gray-700"><span class="text-[#10b981] text-base leading-none">✔</span> <span>Todos os 6 Presentes/Bônus Extras</span></p>
+               <p class="flex items-start gap-2 text-[12px] font-bold text-gray-700"><span class="text-[#10b981] text-base leading-none">✔</span> <span>Certificado Oficial</span></p>
            </div>
-           <div class="mb-8 text-center">
-               <p class="text-xs text-gray-400 line-through font-bold">De R$ 37,00 por apenas</p>
-               <p class="text-4xl font-black text-gray-900 leading-tight">R$ 27,00</p>
+
+           <div class="flex items-center justify-center gap-3 mb-5">
+               <div class="text-right">
+                   <p class="text-[10px] text-gray-400 line-through font-bold uppercase tracking-wider">De R$ 27,90 por</p>
+                   <p class="text-3xl font-black text-[#10b981] leading-none">R$ 19<span class="text-xl">,90</span></p>
+               </div>
            </div>
-           <a href="https://confeiteira-mari.pay.yampi.com.br/r/KBLI33QXSY" class="animate-pulse-cta block w-full py-5 btn-green font-black rounded-2xl text-[1.1rem] uppercase shadow-xl mb-4 text-center">SIM! Quero o Completo por R$ 27</a>
-           <a href="https://confeiteira-mari.pay.yampi.com.br/r/RWW6PZI16L" class="block text-[11px] text-gray-400 font-bold hover:text-gray-600 transition underline text-center">Não, obrigado. Vou ficar só com a apostila básica por R$ 17.</a>
+           
+           <!-- ATENÇÃO: COLOQUE AQUI O SEU LINK DA YAMPI PARA O PRODUTO DE R$ 19,90 -->
+           <a href="https://confeiteira-mari.pay.yampi.com.br/r/AQE79N3KQE" class="animate-pulse-btn block w-full py-4 btn-primary font-black rounded-xl text-[1.05rem] uppercase text-center mb-3">
+               SIM! QUERO TUDO POR R$ 19,90
+           </a>
+           
+           <!-- LINK DO PRODUTO BÁSICO DE 14,90 -->
+           <a href="javascript:void(0);" onclick="redirectToBasic()" class="block text-[11px] text-gray-400 font-medium hover:text-gray-600 transition text-center px-4 leading-tight underline">
+               Não, obrigado. Quero perder os vídeos e bônus e ficar só com o e-book por R$ 14,90.
+           </a>
        </div>
    </div>
 
-   <div class="w-full max-w-[420px] min-h-[100dvh] flex flex-col items-center px-6 pt-4 pb-8">
+   <!-- WRAPPER MOBILE FIRST -->
+   <div class="w-full max-w-[480px] flex flex-col items-center bg-white relative min-h-screen">
 
-       <!-- VIEW 1: LANDING PAGE -->
-       <div id="landingPage" class="w-full flex flex-col items-center animate-fade">
-           <div class="w-full pt-8 pb-2 text-center z-30 relative shrink-0">
-               <p class="text-[12px] font-black tracking-widest uppercase mb-2 text-highlight">APRENDA, VENDA E LUCRE:</p>
-               <h1 class="text-[3rem] font-black italic leading-none tracking-tighter mb-5 text-gray-900">Picolé Artesanal</h1>
-               <p class="text-[20px] md:text-[22px] font-bold leading-snug text-gray-800 px-2">
-                   O Plano de Lucro do Verão com <br>
-                   <span class="font-black text-highlight italic tracking-wide uppercase text-[22px] md:text-[24px]">Cobertura Crocante</span> e <br>
-                   <span class="font-serif-italic text-highlight font-black text-[2.2rem] leading-tight block my-2">RECHEIO TRUFADO</span>
-                   <span class="text-[15px] font-medium text-gray-600 block mt-3 leading-relaxed">feito na sua cozinha, <span class="font-bold underline underline-offset-2 text-gray-800">sem máquina cara</span><br>
-                   e sem complicação!</span>
-               </p>
-           </div>
-           <div class="relative w-full flex justify-center items-center z-20 mt-2 shrink-0">
-               <!-- OTIMIZAÇÃO: Imagem principal carrega rápido e com alta prioridade -->
-               <img src="picole-hero.webp" fetchpriority="high" decoding="async" alt="Picolé Artesanal" class="w-[225%] max-w-none h-auto object-contain blend-image">
-           </div>
-           <div class="w-full text-center z-30 -mt-16 flex flex-col items-center shrink-0">
-               <p class="text-[16px] md:text-[18px] font-semibold leading-snug mb-6 px-2 text-gray-800">
-                   Venda <span class="text-highlight font-black text-[18px]">todo dia</span> no iFood com um cardápio direto ao ponto: <br>
-                   <strong class="font-black text-[18px] text-gray-900">15 Sabores Campeões de Vendas</strong>!
-               </p>
-               <button type="button" onclick="showQuiz()" class="animate-pulse-cta w-full py-4 px-6 btn-green text-[1.1rem] font-black rounded-2xl uppercase tracking-wide">QUERO COMEÇAR AGORA</button>
-           </div>
-       </div>
-
-       <!-- VIEW 2: QUIZ P1 -->
-       <div id="quizPage" class="hidden w-full flex-col items-center justify-center animate-fade">
-           <div class="glass-card w-full p-8 text-center mb-8 relative z-30">
-               <h2 class="text-2xl font-black text-gray-900 leading-tight mb-2">Você já trabalha com doces ou algo relacionado a <span class="text-highlight">confeitaria?</span></h2>
-               <p class="text-gray-500 font-medium text-[14px]">Toque na sua resposta:</p>
-           </div>
-           <div class="w-full space-y-3 z-20">
-               <button onclick="showQuestion2()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl transition-transform active:scale-95"><div class="flex items-center gap-3"><span class="text-2xl">🏆</span><span class="font-bold text-[15px]">Sim, já vendo doces</span></div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion2()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl transition-transform active:scale-95"><div class="flex items-center gap-3"><span class="text-2xl">😁</span><span class="font-bold text-[15px]">Sim, faço por hobby ou família</span></div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion2()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl transition-transform active:scale-95"><div class="flex items-center gap-3"><span class="text-2xl">🤔</span><span class="font-bold text-[15px]">Não, mas quero aprender!</span></div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion2()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl transition-transform active:scale-95"><div class="flex items-center gap-3"><span class="text-2xl">😥</span><span class="font-bold text-[15px]">Só quero aprender a fazer!</span></div><span class="text-highlight font-black text-xl">></span></button>
-           </div>
-       </div>
-
-       <!-- VIEW 3: QUIZ P2 -->
-       <div id="quizCursoPage" class="hidden w-full flex-col items-center justify-center animate-fade">
-           <div class="glass-card w-full p-8 text-center mb-8">
-               <h2 class="text-2xl font-black text-gray-900 leading-tight">Já fez algum curso ou treinamento sobre <span class="text-highlight">sorvetes?</span></h2>
-           </div>
-           <div class="w-full space-y-3">
-               <button onclick="showQuestion3()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">😅</span> Nunca fiz, será o primeiro</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion3()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">📖</span> Já fiz um curso</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion3()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">🎓</span> Já fiz vários cursos</div><span class="text-highlight font-black text-xl">></span></button>
-           </div>
-       </div>
-
-       <!-- VIEW 4: QUIZ P3 -->
-       <div id="quizTempoPage" class="hidden w-full flex-col items-center justify-center animate-fade">
-           <div class="glass-card w-full p-8 text-center mb-8">
-               <h2 class="text-2xl font-black text-gray-900 leading-tight">Quanto tempo por dia você tem para <span class="text-highlight">se dedicar?</span></h2>
-           </div>
-           <div class="w-full space-y-3">
-               <button onclick="showQuestion4()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">⏳</span> 15 min a 1 hora (extra)</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion4()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">🕒</span> 3 a 4 horas por dia</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion4()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">☀️</span> Tenho o dia todo livre!</div><span class="text-highlight font-black text-xl">></span></button>
-           </div>
-       </div>
-
-       <!-- VIEW 5: QUIZ P4 -->
-       <div id="quizDoresPage" class="hidden w-full flex-col items-center justify-center animate-fade">
-           <div class="glass-card w-full p-8 text-center mb-8">
-               <h2 class="text-2xl font-black text-gray-900 leading-tight">Qual o seu <span class="text-highlight">MAIOR incômodo</span> hoje?</h2>
-           </div>
-           <div class="w-full space-y-3">
-               <button onclick="showQuestion5()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">💸</span> Não sobra dinheiro</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion5()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">😓</span> Rotina cansativa e mal paga</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showQuestion5()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl">🚨</span> Preciso de um extra URGENTE!</div><span class="text-highlight font-black text-xl">></span></button>
-           </div>
-       </div>
-
-       <!-- VIEW 6: QUIZ P5 (ÚLTIMA) -->
-       <div id="quizObjetivoFinalPage" class="hidden w-full flex-col items-center justify-center animate-fade">
-           <div class="glass-card w-full p-8 text-center mb-8">
-               <h2 class="text-2xl font-black text-gray-900 leading-tight">Última: O que você mais espera <span class="text-highlight">desse verão?</span></h2>
-           </div>
-           <div class="w-full space-y-3">
-               <button onclick="showFinalOffer()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl shrink-0">🔥</span> Fazer primeiros R$ 300 no fim de semana!</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showFinalOffer()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl shrink-0">💸</span> Renda extra para pagar contas com folga.</div><span class="text-highlight font-black text-xl">></span></button>
-               <button onclick="showFinalOffer()" class="quiz-btn w-full flex items-center justify-between p-5 rounded-2xl font-bold"><div class="flex items-center gap-3"><span class="text-2xl shrink-0">😍</span> Começar na cozinha e ir crescendo.</div><span class="text-highlight font-black text-xl">></span></button>
-           </div>
-       </div>
-
-       <!-- VIEW 8: DIFERENCIAIS DA MARIANA -->
-       <div id="finalOfferPage" class="hidden w-full flex-col items-center pt-4 pb-8 animate-fade">
-           <div class="glass-card p-6 text-center w-full z-30 relative shrink-0 mb-8 border-t-4 border-t-[#e11d48]">
-               <h2 class="text-2xl font-black leading-tight text-gray-900 uppercase italic tracking-tighter">
-                   Por que o Método da Mariana <br><span class="text-highlight text-3xl">Vende Todo Dia:</span>
-               </h2>
-           </div>
+       <!-- HERO SECTION -->
+       <div class="w-full flex flex-col items-center pt-10 pb-8 px-5 z-10 relative">
            
-           <div class="w-full space-y-4 z-20">
-               <!-- Feature 1: Quebra de Objeção Principal -->
-               <div class="bg-gradient-to-r from-[#10b981] to-[#059669] p-1 rounded-2xl shadow-xl transform -rotate-1">
-                   <div class="bg-white/95 backdrop-blur-md p-4 rounded-xl flex items-start gap-4 h-full">
-                       <div class="text-3xl shrink-0 mt-1">🚫</div>
-                       <div>
-                           <h4 class="font-black text-gray-900 text-[14px] uppercase italic tracking-tight mb-1">Zero Equipamento Caro</h4>
-                           <p class="text-[13px] font-bold text-gray-700 leading-snug text-left">Não precisa de máquina de sorvete, freezer industrial ou loja física. Use o que você já tem em casa!</p>
-                       </div>
-                   </div>
-               </div>
-
-               <!-- Feature 2: Agilidade/Custo -->
-               <div class="bg-white/80 backdrop-blur-md border border-white shadow-sm p-5 rounded-2xl text-left relative overflow-hidden">
-                   <div class="absolute top-0 right-0 bg-[#fde047] text-gray-900 text-[9px] font-black px-3 py-1 rounded-bl-lg uppercase tracking-wider">Rápido</div>
-                   <div class="flex items-start gap-3">
-                       <div class="text-2xl mt-1">⚡</div>
-                       <div>
-                           <h4 class="text-highlight font-black text-[15px] mb-1">Sem horas na cozinha</h4>
-                           <p class="text-[13px] font-medium text-gray-700 leading-snug">Liquidificador + mixer já resolvem. É prático e direto ao ponto.</p>
-                       </div>
-                   </div>
-               </div>
-
-               <!-- Feature 3: Margem/Lucro -->
-               <div class="bg-white/80 backdrop-blur-md border border-white shadow-sm p-5 rounded-2xl text-left">
-                   <div class="flex items-start gap-3">
-                       <div class="text-2xl mt-1">💰</div>
-                       <div>
-                           <h4 class="text-highlight font-black text-[15px] mb-1">Custo baixo, Margem Alta</h4>
-                           <p class="text-[13px] font-medium text-gray-700 leading-snug">Produza pagando centavos e venda com preço de <strong class="text-gray-900 font-bold">picolé premium</strong>.</p>
-                       </div>
-                   </div>
-               </div>
-
-               <!-- Feature 4: O Segredo (Fácil + Casquinha) -->
-               <div class="grid grid-cols-2 gap-3">
-                   <div class="bg-white/80 backdrop-blur-md border border-white shadow-sm p-4 rounded-2xl text-center flex flex-col items-center justify-center">
-                       <span class="text-3xl mb-2">🥣</span>
-                       <p class="text-[12px] font-bold text-gray-700 leading-tight"><strong class="text-highlight">Fácil Produção</strong><br>Sem sujeira, basta bater tudo e congelar!</p>
-                   </div>
-                   <div class="bg-white/80 backdrop-blur-md border border-white shadow-sm p-4 rounded-2xl text-center flex flex-col items-center justify-center">
-                       <span class="text-3xl mb-2">🍫</span>
-                       <p class="text-[12px] font-bold text-gray-700 leading-tight"><strong class="text-highlight">Casquinha Fina</strong><br>que não fica grossa e enjoativa.</p>
-                   </div>
-               </div>
-
-               <!-- Feature 5: Textura e Padrão iFood -->
-               <div class="bg-white/80 backdrop-blur-md border border-white shadow-sm p-5 rounded-2xl text-left">
-                   <div class="flex items-start gap-3 mb-4 pb-4 border-b border-gray-200">
-                       <div class="w-8 h-8 rounded-full bg-[#be185d] flex items-center justify-center text-white font-black shrink-0 border-2 border-white text-sm shadow-sm">⭐</div>
-                       <p class="text-[13px] font-medium text-gray-700 leading-snug"><strong class="text-highlight">Centro hiper cremoso</strong> (derrete devagar, textura de picolé profissional).</p>
-                   </div>
-                   <div class="flex items-start gap-3">
-                       <div class="w-8 h-8 rounded-full bg-[#be185d] flex items-center justify-center text-white font-black shrink-0 border-2 border-white text-sm shadow-sm">📱</div>
-                       <p class="text-[13px] font-medium text-gray-700 leading-snug">Padrão iFood (Aparência + Embalagem). Você fará picolés com <strong class="text-highlight">cara de marca famosa</strong>.</p>
-                   </div>
-               </div>
-           </div>
-
-           <div class="w-full text-center z-30 mt-8 flex flex-col items-center shrink-0">
-               <button onclick="showFinalPage()" class="animate-pulse-cta w-full py-5 px-6 btn-green text-[1.1rem] font-black rounded-xl uppercase tracking-wide shadow-xl">QUERO APRENDER ESSE MÉTODO</button>
-           </div>
-       </div>
-
-       <!-- VIEW 9: PÁGINA DE LUCRO -->
-       <div id="finalPage" class="hidden w-full flex-col items-center pt-4 pb-8 animate-fade text-center">
-           <div class="glass-card p-6 text-center w-full z-30 relative shrink-0 mb-6 border-b-4 border-b-[#e11d48]">
-               <h2 class="text-[2.5rem] font-black leading-tight text-gray-900 italic">A <span class="text-highlight">Matemática</span> do Lucro</h2>
-           </div>
+           <h1 class="text-[26px] md:text-[30px] font-black leading-[1.15] tracking-tight mb-4 text-center text-gray-900">
+               Pare de perder dinheiro. <span class="text-brand">Aprenda a fazer picolés que vendem sozinhos</span> e fature até R$300/dia.
+           </h1>
            
-           <div class="w-full text-center z-30 mt-4 flex flex-col items-center shrink-0">
-               <p class="text-[15px] font-bold mb-6 leading-relaxed text-gray-700 px-4 text-center">
-                   O custo para produzir um picolé gourmet artesanal é <strong class="text-highlight">baixíssimo</strong> comparado ao valor de venda. Veja quanto você coloca no bolso:
-               </p>
+           <p class="text-[14px] text-gray-600 font-medium mb-6 text-center px-2">
+               O método caseiro com lucro acima de 300% para você aproveitar o calor com <strong class="text-gray-900">cobertura crocante e recheio trufado</strong>, sem precisar de máquinas caras.
+           </p>
+           
+           <!-- ÂNCORA DE PREÇO -->
+           <div class="mb-4 text-center">
+               <p class="text-[11px] text-gray-500 font-bold uppercase tracking-widest mb-1">Por Apenas...</p>
+               <p class="text-brand text-[2.5rem] font-black leading-none">R$ 14,90</p>
+               <p class="text-[11px] text-gray-500 mt-1">pagamento único com acesso imediato via e-mail</p>
+           </div>
 
-               <!-- Calculadora Visual -->
-               <div class="w-full bg-white/90 backdrop-blur-md rounded-3xl p-6 border border-white mb-8 shadow-xl relative">
-                   <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white font-black px-5 py-1.5 rounded-full text-[11px] uppercase tracking-widest shadow-md">LUCRO GARANTIDO</div>
-                   
-                   <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-3 mt-2">
-                       <span class="text-gray-600 font-medium text-[15px]">Custo Médio p/ Picolé:</span>
-                       <span class="font-bold text-gray-900 text-[16px]">R$ 3,00</span>
-                   </div>
-                   <div class="flex justify-between items-center border-b border-gray-200 pb-3 mb-3">
-                       <span class="text-gray-600 font-medium text-[15px]">Preço de Venda Médio:</span>
-                       <span class="font-bold text-gray-900 text-[16px]">R$ 12,00</span>
-                   </div>
-                   <div class="flex justify-between items-center pt-2">
-                       <span class="font-black text-gray-900 text-[18px] uppercase italic">Lucro Limpo:</span>
-                       <span class="font-black text-highlight text-[24px]">R$ 9,00 <span class="text-[12px] text-gray-500 italic lowercase">/unid</span></span>
-                   </div>
-               </div>
+           <button onclick="document.getElementById('checkoutSection').scrollIntoView({behavior: 'smooth'})" class="animate-pulse-btn w-full py-4 px-6 btn-primary font-black text-[1.1rem] rounded-xl uppercase tracking-wider mb-8">
+               QUERO COMEÇAR A LUCRAR
+           </button>
 
-               <!-- Projeção Mensal -->
-               <div class="w-full bg-gradient-to-r from-[#10b981] to-[#059669] rounded-[2rem] p-6 mb-8 shadow-xl transform rotate-1 border-2 border-green-300">
-                   <p class="text-white/90 font-black text-[13px] uppercase tracking-widest mb-3">Vendendo APENAS 12 por dia:</p>
-                   <p class="text-white font-black text-[3rem] leading-none drop-shadow-md mb-1">R$ 3.240<span class="text-2xl text-white/80">,00</span></p>
-                   <p class="text-white font-black text-[16px] italic">de lucro livre no mês!</p>
-               </div>
-
-               <p class="text-[14px] text-gray-700 font-bold mb-8 leading-relaxed px-5 italic text-center">
-                   Isso mesmo, <span class="text-highlight font-black underline">só 12 picolés por dia</span> trabalhando poucas horas, do seu próprio freezer. Uma margem de ganho de 300%!
-               </p>
-
-               <button onclick="showTestimonials()" class="animate-pulse-cta w-full py-5 px-6 btn-green text-[1.1rem] font-black rounded-xl uppercase tracking-wide shadow-xl">EU QUERO ESSA MARGEM</button>
+           <!-- IMAGEM HERO -->
+           <div class="relative w-full flex justify-center items-center mb-4">
+               <img src="picole-hero.webp" fetchpriority="high" decoding="async" alt="Picolé Artesanal" class="w-[120%] max-w-none h-auto object-contain blend-image drop-shadow-2xl -ml-2">
            </div>
        </div>
 
-       <!-- VIEW 10: DEPOIMENTOS -->
-       <div id="testimonialsPage" class="hidden w-full flex-col items-center pt-4 pb-8 animate-fade text-center">
-           <div class="glass-card p-6 text-center w-full shrink-0 mb-8"><h2 class="text-2xl font-black mb-1 text-gray-900 uppercase italic tracking-tighter text-center">Quem comprou, aprovou!</h2></div>
-          
-           <div class="w-full space-y-4 mt-8 mb-8 z-20 text-left px-2">
+       <!-- O SEGREDO DO MÉTODO (CARDS VERTICAIS) -->
+       <div class="w-full flex flex-col items-center px-5 pt-8 pb-8 fade-up text-center bg-gray-50 border-t border-gray-100">
+           <p class="text-brand text-[11px] font-black uppercase tracking-widest mb-2">O MÉTODO</p>
+           <h2 class="text-2xl font-black leading-tight text-gray-900 mb-8">
+               O Segredo do <span class="text-brand">Picolé Perfeito</span><br>na sua própria cozinha.
+           </h2>
+
+           <div class="w-full card-light p-5 flex flex-col gap-4 text-left">
+               <!-- Check 1 -->
+               <div class="flex items-start gap-4 pb-4 border-b border-gray-100">
+                   <div class="w-6 h-6 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0 mt-0.5">
+                       <span class="text-brand text-xs font-black">✔</span>
+                   </div>
+                   <div>
+                       <h4 class="font-bold text-gray-900 text-[15px] mb-1">Zero Equipamento Caro</h4>
+                       <p class="text-[13px] text-gray-600 leading-relaxed">Não precisa de máquina de sorvete ou freezer industrial. Faça picolés incríveis usando apenas o liquidificador e forminhas simples.</p>
+                   </div>
+               </div>
                
-               <!-- Comentário 1 -->
-               <div class="bg-white text-gray-800 p-4 rounded-xl shadow-md border border-gray-100 flex gap-3 transform -rotate-1 text-left relative">
-                   <div class="w-10 h-10 rounded-full bg-[#d81b60] text-white flex items-center justify-center font-black flex-shrink-0 text-sm shadow-sm">P</div>
-                   <div class="flex-1 pb-3">
-                       <h4 class="font-black text-[13px] text-[#3b5998]">Patrícia Gomes</h4>
-                       <p class="text-[12px] leading-snug text-gray-700 mt-1">Gente, a saída aqui no bairro tá surreal! 😱 Fiz 30 picolés trufados de manhã e já acabou tudo. O lucro é real!</p>
-                       <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500 font-bold">
-                           <span class="cursor-pointer hover:underline">Curtir</span>
-                           <span class="cursor-pointer hover:underline">Responder</span>
-                           <span class="font-normal text-gray-400">2 h</span>
-                       </div>
-                       <div class="absolute bottom-2 right-3 flex items-center bg-white rounded-full shadow-sm border border-gray-200 px-1.5 py-0.5">
-                           <span class="text-[11px] z-10">👍</span>
-                           <span class="text-[11px] -ml-1 z-0">❤️</span>
-                           <span class="text-[10px] ml-1 text-gray-600 font-bold">48</span>
-                       </div>
+               <!-- Check 2 -->
+               <div class="flex items-start gap-4 pb-4 border-b border-gray-100">
+                   <div class="w-6 h-6 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0 mt-0.5">
+                       <span class="text-brand text-xs font-black">✔</span>
+                   </div>
+                   <div>
+                       <h4 class="font-bold text-gray-900 text-[15px] mb-1">O Segredo da Casquinha</h4>
+                       <p class="text-[13px] text-gray-600 leading-relaxed">Aprenda a fazer a casquinha fina e crocante de chocolate que não fica enjoativa e não derrete no primeiro minuto.</p>
                    </div>
                </div>
 
-               <!-- Comentário 2 -->
-               <div class="bg-white text-gray-800 p-4 rounded-xl shadow-md border border-gray-100 flex gap-3 transform rotate-1 text-left relative">
-                   <div class="w-10 h-10 rounded-full bg-[#3b82f6] text-white flex items-center justify-center font-black flex-shrink-0 text-sm shadow-sm">L</div>
-                   <div class="flex-1 pb-3">
-                       <h4 class="font-black text-[13px] text-[#3b5998]">Luciana M.</h4>
-                       <p class="text-[12px] leading-snug text-gray-700 mt-1">A casquinha fina de chocolate fica perfeita! Fiz pra festa do meu filho e as mães já encomendaram. 😍</p>
-                       <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500 font-bold">
-                           <span class="cursor-pointer hover:underline">Curtir</span>
-                           <span class="cursor-pointer hover:underline">Responder</span>
-                           <span class="font-normal text-gray-400">4 h</span>
-                       </div>
-                       <div class="absolute bottom-2 right-3 flex items-center bg-white rounded-full shadow-sm border border-gray-200 px-1.5 py-0.5">
-                           <span class="text-[11px] z-10">❤️</span>
-                           <span class="text-[10px] ml-1 text-gray-600 font-bold">12</span>
-                       </div>
+               <!-- Check 3 -->
+               <div class="flex items-start gap-4 pb-4 border-b border-gray-100">
+                   <div class="w-6 h-6 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0 mt-0.5">
+                       <span class="text-brand text-xs font-black">✔</span>
+                   </div>
+                   <div>
+                       <h4 class="font-bold text-gray-900 text-[15px] mb-1">Custo Baixo, Margem Alta</h4>
+                       <p class="text-[13px] text-gray-600 leading-relaxed">Produza pagando poucos centavos a unidade e venda com preço de picolé premium no iFood ou WhatsApp.</p>
                    </div>
                </div>
 
-               <!-- Comentário 3 -->
-               <div class="bg-white text-gray-800 p-4 rounded-xl shadow-md border border-gray-100 flex gap-3 transform -rotate-1 text-left relative">
-                   <div class="w-10 h-10 rounded-full bg-[#10b981] text-white flex items-center justify-center font-black flex-shrink-0 text-sm shadow-sm">A</div>
-                   <div class="flex-1 pb-3">
-                       <h4 class="font-black text-[13px] text-[#3b5998]">Ana Clara</h4>
-                       <p class="text-[12px] leading-snug text-gray-700 mt-1">Eu achava que precisava daquelas formas de metal caríssimas kkkk 😂 Usar as forminhas de silicone igual a Mari ensina salvou minha vida!</p>
-                       <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500 font-bold">
-                           <span class="cursor-pointer hover:underline">Curtir</span>
-                           <span class="cursor-pointer hover:underline">Responder</span>
-                           <span class="font-normal text-gray-400">5 h</span>
-                       </div>
-                       <div class="absolute bottom-2 right-3 flex items-center bg-white rounded-full shadow-sm border border-gray-200 px-1.5 py-0.5">
-                           <span class="text-[11px] z-10">😆</span>
-                           <span class="text-[11px] -ml-1 z-0">👍</span>
-                           <span class="text-[10px] ml-1 text-gray-600 font-bold">89</span>
-                       </div>
+               <!-- Check 4 -->
+               <div class="flex items-start gap-4">
+                   <div class="w-6 h-6 rounded-full bg-pink-50 border border-pink-200 flex items-center justify-center shrink-0 mt-0.5">
+                       <span class="text-brand text-xs font-black">✔</span>
+                   </div>
+                   <div>
+                       <h4 class="font-bold text-gray-900 text-[15px] mb-1">+15 Sabores Campeões</h4>
+                       <p class="text-[13px] text-gray-600 leading-relaxed">De Ninho com Nutella a Morango Trufado. Um cardápio enxuto testado e validado para você vender todo dia.</p>
                    </div>
                </div>
-
-               <!-- Comentário 4 -->
-               <div class="bg-white text-gray-800 p-4 rounded-xl shadow-md border border-gray-100 flex gap-3 transform rotate-1 text-left relative">
-                   <div class="w-10 h-10 rounded-full bg-[#f59e0b] text-white flex items-center justify-center font-black flex-shrink-0 text-sm shadow-sm">S</div>
-                   <div class="flex-1 pb-3">
-                       <h4 class="font-black text-[13px] text-[#3b5998]">Sandra Silva</h4>
-                       <p class="text-[12px] leading-snug text-gray-700 mt-1">No primeiro fim de semana fiz R$ 450 só vendendo o picolé de ninho com nutella. Muito obrigada Mariana! 🙏</p>
-                       <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500 font-bold">
-                           <span class="cursor-pointer hover:underline">Curtir</span>
-                           <span class="cursor-pointer hover:underline">Responder</span>
-                           <span class="font-normal text-gray-400">12 h</span>
-                       </div>
-                       <div class="absolute bottom-2 right-3 flex items-center bg-white rounded-full shadow-sm border border-gray-200 px-1.5 py-0.5">
-                           <span class="text-[11px] z-10">❤️</span>
-                           <span class="text-[11px] -ml-1 z-0">🥰</span>
-                           <span class="text-[10px] ml-1 text-gray-600 font-bold">156</span>
-                       </div>
-                   </div>
-               </div>
-
-               <!-- Comentário 5 -->
-               <div class="bg-white text-gray-800 p-4 rounded-xl shadow-md border border-gray-100 flex gap-3 transform -rotate-1 text-left relative">
-                   <div class="w-10 h-10 rounded-full bg-[#8b5cf6] text-white flex items-center justify-center font-black flex-shrink-0 text-sm shadow-sm">J</div>
-                   <div class="flex-1 pb-3">
-                       <h4 class="font-black text-[13px] text-[#3b5998]">Juliana R.</h4>
-                       <p class="text-[12px] leading-snug text-gray-700 mt-1">Os picolés recheados viraram febre aqui no condomínio. Todo dia me pedem. O segredo da massa é surreal de bom!</p>
-                       <div class="flex items-center gap-3 mt-2 text-[10px] text-gray-500 font-bold">
-                           <span class="cursor-pointer hover:underline">Curtir</span>
-                           <span class="cursor-pointer hover:underline">Responder</span>
-                           <span class="font-normal text-gray-400">1 d</span>
-                       </div>
-                       <div class="absolute bottom-2 right-3 flex items-center bg-white rounded-full shadow-sm border border-gray-200 px-1.5 py-0.5">
-                           <span class="text-[11px] z-10">👍</span>
-                           <span class="text-[11px] -ml-1 z-0">😲</span>
-                           <span class="text-[10px] ml-1 text-gray-600 font-bold">34</span>
-                       </div>
-                   </div>
-               </div>
-
-           </div>
-           <button onclick="showLoadingPage()" class="w-full py-5 px-6 btn-green text-[1.1rem] font-black rounded-xl uppercase tracking-wide shadow-xl">QUERO OS MESMOS RESULTADOS</button>
-       </div>
-
-       <!-- VIEW 11: LOADING PROFISSIONAL -->
-       <div id="loadingPage" class="hidden w-full flex-col items-center justify-center min-h-[85dvh] animate-fade">
-           <div class="glass-card p-10 text-center w-full border-2 border-white">
-               <div class="w-20 h-20 mx-auto mb-6 bg-white/80 rounded-full flex items-center justify-center border border-gray-200 shadow-md"><span class="text-4xl animate-pulse">🍦</span></div>
-               <h2 class="text-2xl font-black mb-8 text-gray-900 text-center leading-tight">Montando seu plano...</h2>
-               <div id="progressBarContainer" class="mb-8 border border-gray-200 shadow-inner"><div id="progressBarFill"></div></div>
-               <div id="loadingItems" class="text-left space-y-4 text-[13px] text-gray-700 font-medium italic text-left"></div>
            </div>
        </div>
 
-       <!-- VIEW 12: CHECKOUT FINAL -->
-       <div id="finalCheckoutPage" class="hidden w-full flex-col animate-fade pb-10">
-           <div class="bg-white rounded-[2rem] p-6 text-center w-full mb-6 shadow-sm border border-gray-100 text-center">
-               <h2 class="text-2xl font-black text-gray-900 mb-2 leading-tight">Seu plano está pronto!<br><span class="text-highlight uppercase text-sm tracking-widest">Leia com ATENÇÃO</span></h2>
-               <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto my-4 shadow-md border-2 border-white">
-                   <span class="text-white text-2xl font-black">✓</span>
-               </div>
-               <p class="text-[14px] text-gray-700 font-medium leading-relaxed text-center px-2 italic uppercase tracking-tighter">Parabéns! Você está qualificada para a turma de verão <strong class="text-highlight italic uppercase">Picolé Lucrativo!</strong></p>
+       <!-- SHOWCASE / VITRINE (GRID 2x2) -->
+       <div class="w-full flex flex-col items-center px-5 pt-8 pb-10 fade-up text-center">
+           <h2 class="text-[18px] md:text-[20px] font-black text-gray-900 uppercase tracking-tighter mb-0.5">
+               VOCÊ VAI APRENDER A FAZER
+           </h2>
+           <h3 class="text-[22px] md:text-[24px] font-black text-brand italic uppercase tracking-tighter mb-6">
+               ESSAS OBRAS DE ARTE:
+           </h3>
+           
+           <!-- Grid 2x2 exato do HTML original -->
+           <div class="grid grid-cols-2 gap-3 w-full">
+               <img src="picole-grid-1.webp" loading="lazy" class="w-full aspect-square object-cover rounded-2xl shadow-sm border border-gray-100">
+               <img src="picole-grid-2.webp" loading="lazy" class="w-full aspect-square object-cover rounded-2xl shadow-sm border border-gray-100">
+               <img src="picole-grid-3.webp" loading="lazy" class="w-full aspect-square object-cover rounded-2xl shadow-sm border border-gray-100">
+               <img src="picole-grid-4.webp" loading="lazy" class="w-full aspect-square object-cover rounded-2xl shadow-sm border border-gray-100">
            </div>
+       </div>
 
-           <div class="bg-white rounded-[2rem] p-6 mb-6 shadow-xl border border-gray-100 text-gray-900 text-left relative overflow-hidden">
-               <div class="absolute top-0 right-0 bg-yellow-400 text-gray-900 text-[10px] font-black px-4 py-1.5 rounded-bl-xl uppercase tracking-widest">Acesso Imediato</div>
+       <!-- O QUE VAI RECEBER (ENTREGÁVEIS + EMPILHAMENTO DE BÔNUS) -->
+       <div class="w-full flex flex-col px-5 pt-8 pb-10 fade-up bg-gray-50 border-t border-gray-100">
+           
+           <!-- PRODUTO PRINCIPAL -->
+           <div class="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 md:p-8 relative mt-2 mb-10">
+               <div class="absolute top-0 right-0 bg-[#fbbf24] text-gray-900 font-black px-4 py-1.5 rounded-bl-xl text-[10px] uppercase tracking-widest">ACESSO IMEDIATO</div>
                
-               <h3 class="text-[17px] font-black mb-5 leading-tight text-center">Tudo que você vai receber no<br>Método <span class="text-highlight">Picolé Lucrativo:</span></h3>
+               <h3 class="text-[18px] md:text-[20px] font-black text-center text-gray-900 mb-6 leading-tight mt-2">
+                   Tudo que você vai receber no<br>Método <span class="text-brand">Picolé Lucrativo:</span>
+               </h3>
                
-               <ul class="space-y-3 text-[13px] font-bold text-gray-700">
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Vídeo Aulas em Alta Resolução (Passo a passo prático)</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>O Segredo do <span class="text-highlight">Recheio Trufado</span> e Casquinha Crocante</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Cardápio Enxuto: <span class="text-highlight">15 Sabores Campeões</span> de Venda</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Técnica de Armazenamento para não perder estoque</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Roteiro de Vendas: Como esgotar seu estoque em 24 horas</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Script Copia e Cola para vender muito no WhatsApp</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Calculadora Automática: Saiba o centavo exato do seu lucro</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Acesso Vitalício + Suporte VIP direto com a Mariana</span></li>
-                   <li class="flex gap-3 items-start"><span class="text-green-600 text-lg leading-none">✓</span> <span>Lindo Certificado de Conclusão Oficial</span></li>
+               <ul class="space-y-4 text-[13px] md:text-[14px] font-bold text-gray-700">
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Treinamento Completo com Aulas Gravadas</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Passo a passo para vender seus primeiros picolés em 24h</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Técnica do <strong class="text-brand">Recheio Trufado</strong> e Casquinha</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Mais de <strong class="text-brand">15 Sabores Gourmet</strong> Campeões</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Ferramenta secreta para vender todo dia no WhatsApp</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Calculadora para precificar seus picolés</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Acesso vitalício ao material</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Acesso ao suporte VIP com a Mariana</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Técnica de Armazenamento para não perder estoque</span></li>
+                   <li class="flex items-start gap-3"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Certificado Oficial de Especialista</span></li>
                </ul>
                
                <div class="mt-6 pt-5 border-t border-gray-100 text-center">
-                   <p class="text-[13px] font-black text-gray-800 uppercase tracking-tighter italic">Transforme seu freezer em uma<br><span class="text-green-600 text-[16px]">Fábrica de Dinheiro hoje mesmo.</span></p>
+                   <p class="text-[13px] md:text-[14px] font-black text-gray-900 uppercase italic tracking-tighter">TRANSFORME SEU FREEZER EM UMA<br><span class="text-[#10b981] text-[15px] md:text-[16px]">FÁBRICA DE DINHEIRO HOJE MESMO.</span></p>
                </div>
            </div>
 
-           <!-- GRID DE RESULTADOS (PROVA VISUAL) -->
-           <div class="w-full mb-10 z-20">
-               <h3 class="text-gray-900 font-black text-center text-[18px] mb-5 uppercase tracking-tighter italic">
-                   Você vai aprender a fazer <br><span class="text-highlight text-[22px]">essas obras de arte:</span>
+           <!-- EMPILHAMENTO DE BÔNUS (VALUE STACKING) -->
+           <div class="w-full text-center mb-4">
+               <span class="inline-block bg-red-100 text-red-600 text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3">APENAS HOJE</span>
+               <h3 class="text-xl md:text-2xl font-black text-gray-900 leading-tight">
+                   E não para por aí... Levando hoje você desbloqueia <span class="text-brand">6 Bônus Premium:</span>
                </h3>
-               <div class="grid grid-cols-2 gap-3">
-                   <!-- OTIMIZAÇÃO PAGESPEED: loading="lazy" em imagens fora da tela -->
-                   <img src="picole-grid-1.webp" alt="Picolé Trufado 1" loading="lazy" decoding="async" class="scroll-fade w-full h-44 object-cover rounded-2xl shadow-sm border border-gray-200" style="transition-delay: 100ms;">
-                   <img src="picole-grid-2.webp" alt="Picolé Trufado 2" loading="lazy" decoding="async" class="scroll-fade w-full h-44 object-cover rounded-2xl shadow-sm border border-gray-200" style="transition-delay: 200ms;">
-                   <img src="picole-grid-3.webp" alt="Picolé Trufado 3" loading="lazy" decoding="async" class="scroll-fade w-full h-44 object-cover rounded-2xl shadow-sm border border-gray-200" style="transition-delay: 300ms;">
-                   <img src="picole-grid-4.webp" alt="Picolé Trufado 4" loading="lazy" decoding="async" class="scroll-fade w-full h-44 object-cover rounded-2xl shadow-sm border border-gray-200" style="transition-delay: 400ms;">
-                   <img src="picole-grid-5.webp" alt="Picolé Trufado 5" loading="lazy" decoding="async" class="scroll-fade w-full h-44 object-cover rounded-2xl shadow-sm border border-gray-200" style="transition-delay: 500ms;">
-                   <img src="picole-grid-6.webp" alt="Picolé Trufado 6" loading="lazy" decoding="async" class="scroll-fade w-full h-44 object-cover rounded-2xl shadow-sm border border-gray-200" style="transition-delay: 600ms;">
-               </div>
            </div>
 
-           <!-- BÔNUS (DESIGN PREMIUM) -->
-           <div class="w-full mb-12 z-20">
-               <h3 class="text-gray-900 font-black text-center text-[20px] mb-2 uppercase tracking-tighter italic">
-                   E não para por aí...
-               </h3>
-               <p class="text-[14px] text-gray-700 font-medium text-center mb-6 px-3 leading-relaxed">
-                   Garantindo sua vaga <strong class="text-highlight">hoje</strong>, vou liberar <span class="font-black text-green-600">R$ 153,00 em Bônus Exclusivos</span> 100% de graça:
-               </p>
+           <!-- GRID DE BÔNUS (6 ITENS ADAPTADOS PARA PICOLÉ) -->
+           <div class="grid grid-cols-1 gap-3 w-full mt-4">
+               
+               <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative pt-10">
+                   <div class="absolute top-3 left-4 bg-brand text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">BÔNUS #1</div>
+                   <div class="absolute top-3 right-4 text-[11px] text-gray-400 line-through font-bold">R$ 97</div>
+                   <h4 class="font-black text-[14px] text-gray-900 mb-1 leading-tight">Calculadora Mágica de Lucros</h4>
+                   <p class="text-[12px] text-gray-600 leading-relaxed">Chega de chutar o preço. Coloque os ingredientes na planilha e saiba o preço exato para ter 300% de lucro por picolé.</p>
+               </div>
 
-               <div class="space-y-5 text-left px-1">
-                   <!-- Bonus 1 -->
-                   <div class="bg-white rounded-[1.25rem] p-6 shadow-sm border border-gray-200 relative">
-                       <div class="inline-block bg-gray-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 shadow-sm">Bônus #01</div>
-                       <h4 class="font-black text-[16px] text-gray-900 mb-2 leading-tight">Pack Canva: Cardápios & Artes</h4>
-                       <p class="text-[13px] text-gray-600 leading-relaxed mb-5">Templates prontos e profissionais para você colocar seu preço e postar no Instagram. Pareça uma marca gigante desde o seu primeiro dia de vendas.</p>
-                       <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                           <span class="text-[11px] font-bold text-gray-400 line-through">De R$ 67,00 por</span>
-                           <span class="text-[15px] font-black text-green-600 uppercase tracking-wide">Grátis</span>
-                       </div>
-                   </div>
+               <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative pt-10">
+                   <div class="absolute top-3 left-4 bg-brand text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">BÔNUS #2</div>
+                   <div class="absolute top-3 right-4 text-[11px] text-gray-400 line-through font-bold">R$ 67</div>
+                   <h4 class="font-black text-[14px] text-gray-900 mb-1 leading-tight">Pack Canva: Cardápios & Artes</h4>
+                   <p class="text-[12px] text-gray-600 leading-relaxed">Templates prontos para postar no Instagram. Pareça uma marca gigante de picolés desde o primeiro dia de vendas.</p>
+               </div>
 
-                   <!-- Bonus 2 -->
-                   <div class="bg-white rounded-[1.25rem] p-6 shadow-sm border border-gray-200 relative">
-                       <div class="inline-block bg-gray-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 shadow-sm">Bônus #02</div>
-                       <h4 class="font-black text-[16px] text-gray-900 mb-2 leading-tight">Script de Vendas p/ WhatsApp</h4>
-                       <p class="text-[13px] text-gray-600 leading-relaxed mb-5">O texto persuasivo exato para mandar nos grupos do condomínio, família e clientes. É só copiar, colar e ver os pedidos chegando.</p>
-                       <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                           <span class="text-[11px] font-bold text-gray-400 line-through">De R$ 47,00 por</span>
-                           <span class="text-[15px] font-black text-green-600 uppercase tracking-wide">Grátis</span>
-                       </div>
-                   </div>
+               <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative pt-10">
+                   <div class="absolute top-3 left-4 bg-brand text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">BÔNUS #3</div>
+                   <div class="absolute top-3 right-4 text-[11px] text-gray-400 line-through font-bold">R$ 67</div>
+                   <h4 class="font-black text-[14px] text-gray-900 mb-1 leading-tight">Script de Vendas p/ WhatsApp</h4>
+                   <p class="text-[12px] text-gray-600 leading-relaxed">O texto persuasivo exato para mandar nos grupos do condomínio. É só copiar, colar e ver os pedidos chegando.</p>
+               </div>
 
-                   <!-- Bonus 3 (AGORA SIM FECHADO CORRETAMENTE) -->
-                   <div class="bg-white rounded-[1.25rem] p-6 shadow-sm border border-gray-200 relative">
-                       <div class="inline-block bg-gray-900 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest mb-3 shadow-sm">Bônus #03</div>
-                       <h4 class="font-black text-[16px] text-gray-900 mb-2 leading-tight">Calculadora Automática de Lucro</h4>
-                       <p class="text-[13px] text-gray-600 leading-relaxed mb-5">Chega de perder dinheiro chutando preço. Coloque o valor que você pagou nos ingredientes e a planilha te diz o preço de venda na hora.</p>
-                       <div class="flex items-center justify-between pt-4 border-t border-gray-100">
-                           <span class="text-[11px] font-bold text-gray-400 line-through">De R$ 39,00 por</span>
-                           <span class="text-[15px] font-black text-green-600 uppercase tracking-wide">Grátis</span>
-                       </div>
+               <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative pt-10">
+                   <div class="absolute top-3 left-4 bg-brand text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">BÔNUS #4</div>
+                   <div class="absolute top-3 right-4 text-[11px] text-gray-400 line-through font-bold">R$ 97</div>
+                   <h4 class="font-black text-[14px] text-gray-900 mb-1 leading-tight">Caldas e Coberturas Especiais</h4>
+                   <p class="text-[12px] text-gray-600 leading-relaxed">Aprenda a fazer coberturas caseiras de chocolate crocante, caramelo e frutas vermelhas que endurecem na hora.</p>
+               </div>
+
+               <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative pt-10">
+                   <div class="absolute top-3 left-4 bg-brand text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">BÔNUS #5</div>
+                   <div class="absolute top-3 right-4 text-[11px] text-gray-400 line-through font-bold">R$ 67</div>
+                   <h4 class="font-black text-[14px] text-gray-900 mb-1 leading-tight">Delivery Sem Derreter</h4>
+                   <p class="text-[12px] text-gray-600 leading-relaxed">O segredo das embalagens e isopor para enviar seus picolés pelo motoboy do iFood chegando totalmente congelados.</p>
+               </div>
+
+               <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm relative pt-10">
+                   <div class="absolute top-3 left-4 bg-brand text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">BÔNUS #6</div>
+                   <div class="absolute top-3 right-4 text-[11px] text-gray-400 line-through font-bold">R$ 39</div>
+                   <h4 class="font-black text-[14px] text-gray-900 mb-1 leading-tight">Fornecedores Secretos</h4>
+                   <p class="text-[12px] text-gray-600 leading-relaxed">Onde comprar os palitos, embalagens personalizadas e chocolates pagando preço de atacado direto da fábrica.</p>
+               </div>
+
+           </div>
+           
+           <button onclick="document.getElementById('checkoutSection').scrollIntoView({behavior: 'smooth'})" class="w-full py-4 px-6 btn-primary font-black text-[1.1rem] rounded-xl uppercase tracking-wider mt-8 shadow-[0_8px_25px_-5px_rgba(16,185,129,0.5)]">
+               QUERO GARANTIR TODOS OS BÔNUS
+           </button>
+       </div>
+
+       <!-- PROVA SOCIAL / DEPOIMENTOS -->
+       <div class="w-full flex flex-col items-center px-5 pt-8 pb-10 fade-up text-center border-t border-gray-100">
+           <h2 class="text-2xl font-black leading-tight text-gray-900 mb-6">
+               Quem testou, <span class="text-brand">Aprovou!</span>
+           </h2>
+           
+           <div class="w-full space-y-4 text-left">
+               <div class="card-light p-4">
+                   <div class="flex items-center gap-3 mb-2">
+                       <div class="w-8 h-8 rounded-full bg-[#db2777] text-white flex items-center justify-center font-bold text-sm shadow-sm">P</div>
+                       <p class="font-bold text-[13px] text-gray-900">Patrícia Gomes</p>
                    </div>
+                   <p class="text-[13px] text-gray-600 italic">"Gente, a saída aqui no bairro tá surreal! Fiz 30 picolés trufados de manhã e já acabou tudo. O lucro é real!"</p>
+               </div>
+
+               <div class="card-light p-4">
+                   <div class="flex items-center gap-3 mb-2">
+                       <div class="w-8 h-8 rounded-full bg-[#10b981] text-white flex items-center justify-center font-bold text-sm shadow-sm">A</div>
+                       <p class="font-bold text-[13px] text-gray-900">Ana Clara</p>
+                   </div>
+                   <p class="text-[13px] text-gray-600 italic">"Eu achava que precisava daquelas forminhas de metal caríssimas kkkk. A receita na forminha de silicone é muito econômica, amei!"</p>
+               </div>
+               
+               <div class="card-light p-4">
+                   <div class="flex items-center gap-3 mb-2">
+                       <div class="w-8 h-8 rounded-full bg-[#3b82f6] text-white flex items-center justify-center font-bold text-sm shadow-sm">R</div>
+                       <p class="font-bold text-[13px] text-gray-900">Roberta Silva</p>
+                   </div>
+                   <p class="text-[13px] text-gray-600 italic">"Paguei o curso na primeira semana só vendendo picolé de Ninho com Nutella. A dica do delivery salvou demais!"</p>
                </div>
            </div>
+       </div>
 
-           <h3 class="text-gray-900 font-black text-center text-[18px] mb-6 uppercase tracking-wider italic text-center">ESCOLHA SEU PLANO E COMECE AGORA</h3>
+       <!-- OFERTA FINAL (CHECKOUT) -->
+       <div id="checkoutSection" class="w-full flex flex-col px-5 pt-10 pb-12 fade-up border-t border-gray-200 bg-white">
+           <p class="text-brand text-[11px] font-black uppercase tracking-widest mb-2 text-center">DECISÃO FINAL</p>
+           <h2 class="text-2xl font-black leading-tight text-gray-900 mb-8 text-center">
+               Escolha seu plano e <br>comece a lucrar hoje.
+           </h2>
 
-           <!-- PLANO VIP (R$ 37) - OFERTA IRRESISTÍVEL -->
-           <div class="bg-white border-[4px] border-[#10b981] rounded-[2rem] p-6 mb-6 relative shadow-xl text-gray-900 text-left transform hover:scale-[1.02] transition-transform duration-300">
-               <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#10b981] text-white font-black px-6 py-1.5 rounded-full text-[12px] uppercase shadow-md tracking-wider">MAIS VENDIDO</div>
+           <!-- PLANO VIP (DESTAQUE) -->
+           <div class="bg-white border-2 border-[#10b981] rounded-2xl p-6 mb-6 relative shadow-2xl">
+               <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#10b981] text-white font-black px-4 py-1 rounded-full text-[10px] uppercase tracking-widest">MAIS VENDIDO</div>
                
-               <h4 class="text-[19px] font-black text-center mt-3 uppercase italic tracking-tighter text-gray-900">CURSO COMPLETO (VÍDEO + E-BOOK)</h4>
+               <h4 class="text-[18px] font-black text-center mt-2 text-gray-900">Plano Completo (VIP)</h4>
+               <p class="text-[11px] text-gray-500 text-center mt-1">Vídeo Aulas + E-book + Ferramentas</p>
                
-               <!-- NOVO: EMPILHAMENTO DE VALOR -->
-               <div class="space-y-3 my-6 font-bold text-gray-700 text-[13px] text-left px-1">
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Vídeo Aulas Passo a Passo</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>O Segredo do Recheio Trufado</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Cardápio de 15 Sabores Campeões</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Calculadora Automática de Lucro (Bônus)</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Pack Canva de Artes (Bônus)</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Script de Vendas p/ Whats (Bônus)</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Suporte VIP com a Mariana</span></p>
-                   <p class="flex items-start gap-2"><span class="text-[#10b981] text-lg leading-none">✔</span> <span>Certificado de Conclusão Oficial</span></p>
+               <!-- IMAGEM DO PRODUTO -->
+               <div class="flex justify-center my-4">
+                   <img src="picole-grid-1.webp" alt="Pacote VIP Picolé" class="h-[140px] w-auto rounded-lg transform hover:scale-105 transition-transform duration-300">
                </div>
                
-               <div class="text-center mb-6">
-                   <p class="text-[13px] text-gray-400 line-through font-bold mb-1">de R$ 197,00 por</p>
-                   <div class="flex items-center justify-center gap-1">
-                       <span class="text-3xl font-black text-gray-900 self-start mt-1">R$</span>
-                       <span class="text-[4rem] font-black text-gray-900 leading-none tracking-tighter">37<span class="text-4xl">,00</span></span>
-                   </div>
-                   <p id="countdown1" class="text-red-600 font-black text-[11px] mt-3 uppercase italic tracking-wider">Desconto válido por: 01:43</p>
+               <div class="space-y-3 my-5 font-medium text-[12px] text-gray-700">
+                   <p class="flex items-start gap-2"><span class="text-[#10b981] font-bold text-sm">✔</span> <span>Vídeo Aulas Passo a Passo</span></p>
+                   <p class="flex items-start gap-2"><span class="text-[#10b981] font-bold text-sm">✔</span> <span>Técnica da Massa e +15 Sabores</span></p>
+                   <p class="flex items-start gap-2"><span class="text-[#10b981] font-bold text-sm">✔</span> <span>Calculadora Automática de Lucro</span></p>
+                   <p class="flex items-start gap-2"><span class="text-[#10b981] font-bold text-sm">✔</span> <span>Os 6 Presentes Exclusivos Inclusos</span></p>
+                   <p class="flex items-start gap-2"><span class="text-[#10b981] font-bold text-sm">✔</span> <span>Certificado Oficial Especialista</span></p>
                </div>
                
-               <a href="https://confeiteira-mari.pay.yampi.com.br/r/K8MZLO5HWH" class="animate-pulse-cta block w-full py-5 bg-[#10b981] text-white font-black rounded-2xl text-center uppercase tracking-wider shadow-lg text-[1.15rem] italic hover:bg-[#059669] transition-colors">QUERO O PACOTE COMPLETO</a>
-               
-               <!-- Elementos de Segurança -->
-               <div class="mt-5 flex flex-col items-center justify-center">
-                   <div class="flex items-center gap-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
-                       <span>🔒 Compra 100% Segura</span>
-                   </div>
-                   <div class="flex items-center gap-3 text-2xl grayscale opacity-50">
-                       <span title="PIX">💠</span>
-                       <span title="Cartão de Crédito">💳</span>
-                       <span title="Boleto">📄</span>
-                   </div>
+               <div class="text-center mb-5 border-t border-gray-100 pt-4">
+                   <p class="text-[11px] text-gray-400 line-through font-bold mb-1">de R$ 197,00 por</p>
+                   <p class="text-[2.5rem] font-black text-gray-900 leading-none tracking-tighter">R$ 27,90</p>
                </div>
+               
+               <a href="https://confeiteira-mari.pay.yampi.com.br/r/FRIA4GCN1E" class="block w-full py-4 btn-primary font-black rounded-xl text-center uppercase tracking-wider text-[1.1rem]">
+                   COMPRAR PLANO VIP
+               </a>
            </div>
 
-           <!-- PLANO BÁSICO (R$ 17) - ESTRATÉGIA DE CONTRASTE -->
-           <div class="bg-white rounded-[2rem] p-6 mb-4 shadow-md border-2 border-gray-100 text-gray-900 text-left">
-               <h4 class="text-[16px] font-black text-center italic uppercase tracking-tighter text-gray-800">APOSTILA DIGITAL (E-BOOK)</h4>
+           <!-- PLANO BÁSICO -->
+           <div class="card-light p-6 mb-8 border border-gray-200">
+               <h4 class="text-[16px] font-black text-center text-gray-800">Apostila Digital (Básico)</h4>
+               <p class="text-[11px] text-gray-500 text-center mt-1">Apenas as receitas em texto</p>
                
-               <!-- NOVO: AVERSÃO À PERDA -->
-               <div class="space-y-2.5 my-5 font-bold text-[12px] text-left px-1">
-                   <p class="flex items-start gap-2 text-gray-800"><span class="text-green-500 text-base leading-none">✔</span> <span>Apenas Apostila Digital em Texto</span></p>
-                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-500 text-base leading-none">✗</span> <span>Vídeo Aulas Passo a Passo</span></p>
-                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-500 text-base leading-none">✗</span> <span>Todos os 3 Bônus Extras</span></p>
-                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-500 text-base leading-none">✗</span> <span>Planilha de Precificação</span></p>
-                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-500 text-base leading-none">✗</span> <span>Suporte VIP para Dúvidas</span></p>
-                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-500 text-base leading-none">✗</span> <span>Certificado de Conclusão</span></p>
+               <div class="space-y-3 my-5 font-medium text-[12px] text-gray-500">
+                   <p class="flex items-start gap-2"><span class="text-[#10b981] font-bold text-sm">✔</span> <span>Apenas Receitas em Texto</span></p>
+                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-400 font-bold text-sm">✗</span> <span>Vídeo Aulas Passo a Passo</span></p>
+                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-400 font-bold text-sm">✗</span> <span>Todos os 6 Presentes Extras</span></p>
+                   <p class="flex items-start gap-2 text-gray-400 line-through"><span class="text-red-400 font-bold text-sm">✗</span> <span>Certificado Oficial</span></p>
                </div>
                
                <div class="flex items-center justify-between gap-4 mt-4 border-t border-gray-100 pt-5">
-                   <span class="text-[28px] font-black text-gray-800 tracking-tighter">R$ 17,00</span>
-                   <button onclick="showUpsellPopup()" class="px-5 py-3 bg-gray-50 text-gray-500 font-black text-[11px] rounded-xl uppercase hover:bg-gray-100 transition-colors shadow-sm border border-gray-200 tracking-wider">COMPRAR BÁSICO</button>
-               </div>
-           </div>
-
-           <!-- TIMER DE ALERTA -->
-           <div class="animate-alert w-full p-4 rounded-2xl mb-8 text-white text-center shadow-lg border-2 border-red-400 text-center">
-               <p class="text-[10px] font-black uppercase tracking-[0.2em] mb-1 text-center">⚠️ ATENÇÃO: Oferta Expirando</p>
-               <h3 class="text-2xl font-black tracking-tighter text-center" id="countdown2">03:00</h3>
-               <p class="text-[9px] font-bold opacity-90 mt-1 uppercase italic text-center">Esta é a última chance de levar o plano básico com desconto!</p>
-           </div>
-
-           <!-- NOVO: PERGUNTAS FREQUENTES (FAQ) -->
-           <div class="w-full text-left mb-10 z-20">
-               <h3 class="text-gray-900 font-black text-center text-[18px] mb-5 uppercase tracking-tighter italic">Dúvidas Frequentes:</h3>
-               <div class="space-y-3">
-                   <div class="bg-white border border-gray-100 shadow-sm p-4 rounded-2xl">
-                       <h4 class="font-black text-[13px] text-gray-900 mb-1">Como vou receber o material?</h4>
-                       <p class="text-[12px] font-medium text-gray-600 leading-snug">Imediatamente após o pagamento, você receberá um e-mail com seu login e senha para acessar a plataforma oficial.</p>
-                   </div>
-                   <div class="bg-white border border-gray-100 shadow-sm p-4 rounded-2xl">
-                       <h4 class="font-black text-[13px] text-gray-900 mb-1">Nunca fiz picolé, vou conseguir?</h4>
-                       <p class="text-[12px] font-medium text-gray-600 leading-snug">Com certeza! O método da Mariana foi criado justamente para quem está começando do absoluto zero. Tudo passo a passo.</p>
-                   </div>
-                   <div class="bg-white border border-gray-100 shadow-sm p-4 rounded-2xl">
-                       <h4 class="font-black text-[13px] text-gray-900 mb-1">Posso pagar no PIX?</h4>
-                       <p class="text-[12px] font-medium text-gray-600 leading-snug">Sim! O pagamento via PIX é aprovado na hora e você já recebe o acesso no mesmo minuto no seu e-mail.</p>
-                   </div>
+                   <span class="text-[24px] font-black text-gray-900 tracking-tighter">R$ 14,90</span>
+                   <!-- Dispara o Popup de Upsell -->
+                   <button onclick="showUpsellPopup()" class="px-4 py-3 bg-gray-50 text-gray-600 font-bold text-[11px] rounded-lg uppercase hover:bg-gray-100 transition-colors border border-gray-200 tracking-wider">COMPRAR BÁSICO</button>
                </div>
            </div>
 
            <!-- GARANTIA -->
-           <div class="flex flex-col items-center justify-center mb-10 text-center">
-               <img src="selo-garantia.webp" loading="lazy" decoding="async" class="w-40 mb-3 text-center" alt="Garantia de 7 Dias">
-               <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest text-center italic">Garantia incondicional de 7 dias. Seu risco é zero.</p>
+           <div class="flex flex-col items-center justify-center text-center p-5 bg-green-50 border border-green-100 rounded-xl w-full">
+               <div class="text-green-500 text-3xl mb-2">🛡️</div>
+               <h4 class="font-black text-gray-900 text-[14px] mb-1">Garantia Incondicional de 7 Dias</h4>
+               <p class="text-[12px] text-gray-600 leading-snug">Se não gostar do conteúdo, devolvemos 100% do seu dinheiro. Sem burocracia, o seu risco é zero.</p>
+           </div>
+       </div>
+
+       <!-- FAQ INTERATIVO -->
+       <div class="w-full flex flex-col px-5 pt-8 pb-10 fade-up bg-gray-50 border-t border-gray-200">
+           <h2 class="text-xl font-black leading-tight text-gray-900 mb-6 text-center">
+               Ainda tem <span class="text-brand">Dúvidas?</span>
+           </h2>
+
+           <div class="space-y-3 w-full">
+               <details class="group card-light p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+                   <summary class="flex justify-between items-center font-bold text-[13px] text-gray-900 list-none">
+                       <span>Como vou receber o material?</span>
+                       <span class="transition group-open:rotate-180 text-brand">▼</span>
+                   </summary>
+                   <p class="text-[12px] text-gray-600 mt-3 leading-snug border-t border-gray-100 pt-3">Imediatamente após o pagamento ser aprovado, você receberá o acesso diretamente no seu e-mail para baixar tudo na hora.</p>
+               </details>
+
+               <details class="group card-light p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+                   <summary class="flex justify-between items-center font-bold text-[13px] text-gray-900 list-none">
+                       <span>Nunca fiz picolé na vida, vou conseguir?</span>
+                       <span class="transition group-open:rotate-180 text-brand">▼</span>
+                   </summary>
+                   <p class="text-[12px] text-gray-600 mt-3 leading-snug border-t border-gray-100 pt-3">Com absoluta certeza! O nosso método foi criado passo a passo focado em iniciantes. Você só precisa de um liquidificador e forminhas baratas.</p>
+               </details>
+
+               <details class="group card-light p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+                   <summary class="flex justify-between items-center font-bold text-[13px] text-gray-900 list-none">
+                       <span>Quais são as formas de pagamento?</span>
+                       <span class="transition group-open:rotate-180 text-brand">▼</span>
+                   </summary>
+                   <p class="text-[12px] text-gray-600 mt-3 leading-snug border-t border-gray-100 pt-3">Aceitamos PIX (liberação imediata do acesso), Cartão de Crédito (podendo parcelar) e Boleto Bancário.</p>
+               </details>
+               
+               <details class="group card-light p-4 cursor-pointer [&_summary::-webkit-details-marker]:hidden">
+                   <summary class="flex justify-between items-center font-bold text-[13px] text-gray-900 list-none">
+                       <span>Tem garantia? É seguro mesmo?</span>
+                       <span class="transition group-open:rotate-180 text-brand">▼</span>
+                   </summary>
+                   <p class="text-[12px] text-gray-600 mt-3 leading-snug border-t border-gray-100 pt-3">Sim! O seu pagamento é processado por uma das maiores plataformas do Brasil. Você tem 7 dias para testar tudo. Se não gostar, basta um e-mail que devolvemos 100% do seu dinheiro.</p>
+               </details>
+           </div>
+       </div>
+
+       <!-- FINAL CTA & FOOTER (LIGHT MODE - CLEAN) -->
+       <div class="w-full flex flex-col items-center bg-white text-gray-900 pt-12 pb-8 px-6 border-t border-gray-200">
+           
+           <!-- Tag / Badge -->
+           <div class="flex items-center gap-3 mb-6">
+               <div class="bg-[#ef4444] text-white text-[10px] font-black px-4 py-1.5 rounded-full uppercase tracking-widest flex items-center gap-1.5 shadow-sm">
+                   <span>🔥</span> ÚLTIMAS VAGAS COM DESCONTO
+               </div>
            </div>
 
-           <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full py-5 btn-green font-black rounded-[2rem] uppercase tracking-wide shadow-xl mb-10 text-lg italic text-center">Quero lucrar neste verão!</button>
+           <!-- Headline -->
+           <h2 class="text-[28px] md:text-[32px] font-black text-center leading-[1.1] mb-5">
+               O preço de <span class="text-[#10b981]">R$ 14,90</span> é por tempo limitado!
+           </h2>
 
-           <!-- BIO MARI -->
-           <div class="glass-card p-8 mb-10 text-center border border-white text-center">
-               <h4 class="text-highlight font-serif-italic text-3xl mb-4 italic leading-none text-center">Mari Farias -</h4>
-               <p class="text-[14px] leading-relaxed font-bold text-gray-700 px-2 mb-6 italic text-center text-center">Criadora do Treinamento Sorveteria em Casa, especialista em confeitaria desde 2019.<br><br>Percebi o potencial incrível que o picolé artesanal tem para gerar renda com pouco investimento. ✨</p>
-               <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full py-4 bg-white text-[#be185d] font-black rounded-2xl uppercase text-[12px] shadow-sm tracking-widest italic text-center border border-gray-200">Quero viver trabalhando de casa!</button>
+           <!-- Subheadline -->
+           <p class="text-[14px] md:text-[15px] text-gray-600 font-medium text-center mb-8 px-2 leading-relaxed">
+               Depois dessa promoção, o valor volta para <span class="line-through text-gray-400">R$ 197,00</span>. Garanta agora e comece a lucrar hoje mesmo.
+           </p>
+
+           <!-- Botão de Impulso (Puxa do btn-primary verde) -->
+           <button onclick="document.getElementById('checkoutSection').scrollIntoView({behavior: 'smooth'})" class="animate-pulse-btn w-full py-5 btn-primary font-black text-[1.1rem] rounded-xl uppercase tracking-wider mb-6">
+               🔥 Quero Garantir Minha Vaga!
+           </button>
+
+           <!-- Trust Badges -->
+           <div class="flex flex-col items-center gap-2 text-[11px] text-gray-500 mb-10 text-center font-medium">
+               <p class="flex items-center gap-1.5"><span class="text-[#10b981] text-sm">🛡️</span> Garantia de 7 dias • Pagamento Seguro</p>
+               <p>Acesso instantâneo • Receba pelo e-mail • Suporte incluso</p>
            </div>
-       </div> <!-- FIM FINAL CHECKOUT PAGE -->
 
-   </div> <!-- FIM WRAPPER PRINCIPAL -->
+           <div class="w-full h-px bg-gray-200 mb-8"></div>
+
+           <!-- Footer Links -->
+           <div class="w-full flex flex-col gap-8 text-left mb-8">
+               <div>
+                   <p class="text-[12px] text-gray-500 font-medium leading-relaxed pr-4">Transformando cozinhas em negócios lucrativos desde 2019.</p>
+               </div>
+               
+               <div class="grid grid-cols-2 gap-4 w-full">
+                   <div class="flex flex-col gap-3">
+                       <h4 class="text-gray-800 font-black text-[13px] mb-1">Links Úteis</h4>
+                       <a href="#" class="text-[12px] text-gray-500 font-medium hover:text-gray-800 transition">Termos de Uso</a>
+                       <a href="#" class="text-[12px] text-gray-500 font-medium hover:text-gray-800 transition">Política de Privacidade</a>
+                       <a href="#" class="text-[12px] text-gray-500 font-medium hover:text-gray-800 transition">Contato</a>
+                   </div>
+
+                   <div class="flex flex-col gap-3">
+                       <h4 class="text-gray-800 font-black text-[13px] mb-1">Contato</h4>
+                       <p class="text-[11px] text-gray-500 font-medium break-all flex items-start gap-2"><span class="mt-0.5">✉️</span> suporte@picolelucrativo.com</p>
+                   </div>
+               </div>
+           </div>
+
+           <div class="w-full h-px bg-gray-200 mb-6"></div>
+
+           <!-- Missão & Copyright -->
+           <div class="text-center w-full">
+               <p class="text-[11px] text-gray-500 font-medium mb-4 px-2 leading-relaxed">
+                   <strong class="text-gray-700">Missão:</strong> Tornar o picolé artesanal uma fonte de liberdade financeira para milhares de pessoas.
+               </p>
+               <p class="text-[10px] text-gray-400 font-medium">
+                   © 2026 Picolé Artesanal. Todos os direitos reservados.
+               </p>
+           </div>
+       </div>
+
+   </div>
 
    <script>
-       const ALL_VIEWS = ['landingPage', 'quizPage', 'quizCursoPage', 'quizTempoPage', 'quizDoresPage', 'quizObjetivoFinalPage', 'finalOfferPage', 'finalPage', 'testimonialsPage', 'loadingPage', 'finalCheckoutPage'];
-      
-       function hideAllViews() {
-           ALL_VIEWS.forEach(id => {
-               const el = document.getElementById(id);
-               if(el) {
-                   el.classList.add('hidden');
-                   el.classList.remove('flex');
-               }
-           });
-       }
-
-       function showView(viewId) {
-           hideAllViews();
-           const view = document.getElementById(viewId);
-           if (view) {
-               view.classList.remove('hidden');
-               view.classList.add('flex');
-               window.scrollTo({ top: 0, behavior: 'smooth' });
-           }
-       }
-      
-       function showQuiz() { showView('quizPage'); }
-       function showQuestion2() { showView('quizCursoPage'); }
-       function showQuestion3() { showView('quizTempoPage'); }
-       function showQuestion4() { showView('quizDoresPage'); }
-       function showQuestion5() { showView('quizObjetivoFinalPage'); }
-       function showFinalOffer() { showView('finalOfferPage'); }
-       function showFinalPage() { showView('finalPage'); }
-       function showTestimonials() { showView('testimonialsPage'); }
-
        function showUpsellPopup() { document.getElementById('upsellPopup').classList.remove('hidden'); }
-       function closeUpsell() { document.getElementById('upsellPopup').classList.add('hidden'); }
-
-       function startTimer() {
-           let duration1 = 103;
-           let duration2 = 180;
-           const display1 = document.getElementById('countdown1');
-           const display2 = document.getElementById('countdown2');
-           const timer = setInterval(() => {
-               let min1 = parseInt(duration1 / 60, 10);
-               let sec1 = parseInt(duration1 % 60, 10);
-               min1 = min1 < 10 ? "0" + min1 : min1;
-               sec1 = sec1 < 10 ? "0" + sec1 : sec1;
-               if(display1) display1.textContent = "Desconto válido por: " + min1 + ":" + sec1;
-              
-               let min2 = parseInt(duration2 / 60, 10);
-               let sec2 = parseInt(duration2 % 60, 10);
-               min2 = min2 < 10 ? "0" + min2 : min2;
-               sec2 = sec2 < 10 ? "0" + sec2 : sec2;
-               if(display2) display2.textContent = min2 + ":" + sec2;
-
-               if (duration1 <= 0 && duration2 <= 0) { clearInterval(timer); }
-               if (duration1 > 0) duration1--;
-               if (duration2 > 0) duration2--;
-           }, 1000);
-       }
-
-       function startProgressBar() {
-           const fill = document.getElementById('progressBarFill');
-           const itemsCont = document.getElementById('loadingItems');
-           const items = [
-               "Separando Lista de Ingredientes...",
-               "Adicionando 15 Sabores Campeões...",
-               "Liberando Bônus de Caldas Especiais...",
-               "Configurando Script de Vendas no WhatsApp...",
-               "Gerando Certificado Oficial.."
-           ];
-           itemsCont.innerHTML = '';
-           let pct = 0; let itemIdx = 0;
-           const interval = setInterval(() => {
-               pct += 1.5;
-               if(pct >= 100) {
-                   pct = 100;
-                   clearInterval(interval);
-                   setTimeout(() => { showView('finalCheckoutPage'); startTimer(); }, 600);
-               }
-               fill.style.width = `${pct}%`;
-               if(pct >= (itemIdx * 20) && itemIdx < items.length) {
-                   const d = document.createElement('div');
-                   d.className = 'flex items-center text-gray-700 animate-fade justify-between border-b border-gray-200 pb-2';
-                   d.innerHTML = `<span>${items[itemIdx]}</span> <span class="text-[#10b981] font-black text-xl">✔</span>`;
-                   itemsCont.appendChild(d); itemIdx++;
-               }
-           }, 70);
-       }
-
-       function showLoadingPage() { showView('loadingPage'); startProgressBar(); }
        
+       function redirectToBasic() {
+           window.location.href = "https://confeiteira-mari.pay.yampi.com.br/r/17JASRMC9L";
+       }
+
+       function closeUpsell() { 
+           document.getElementById('upsellPopup').classList.add('hidden'); 
+       }
+
        document.addEventListener('DOMContentLoaded', () => { 
-           showView('landingPage'); 
-           
-           // Olheiro de Scroll (Intersection Observer) para ativar as animações na hora certa
+           // Olheiro de Scroll para animar os elementos (Fade Up)
            const observer = new IntersectionObserver((entries) => {
                entries.forEach(entry => {
                    if (entry.isIntersecting) {
                        entry.target.classList.add('is-visible');
-                       observer.unobserve(entry.target); // Faz animar apenas a primeira vez que passa
+                       observer.unobserve(entry.target); 
                    }
                });
-           }, { threshold: 0.15 });
+           }, { threshold: 0.10 });
 
-           document.querySelectorAll('.scroll-fade').forEach(el => {
+           document.querySelectorAll('.fade-up').forEach(el => {
                observer.observe(el);
            });
        });
